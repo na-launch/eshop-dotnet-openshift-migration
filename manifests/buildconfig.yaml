@@ -1,0 +1,23 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  namespace: eshop
+  name: eshop-build
+spec:
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/na-launch/eshop-dotnet-openshift-migration.git'
+      ref: stable
+    contextDir: /
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: Containerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      namespace: eshop
+      name: eshop:latest
+  triggers:
+    - type: ConfigChange
